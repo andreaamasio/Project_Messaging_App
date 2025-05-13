@@ -19,19 +19,17 @@ const validateUser = [
       }
     }),
 
-  body("password")
-    .notEmpty()
-    .withMessage(`Password: ${emptyErr}`)
-    .isLength({ min: 8 })
-    .withMessage(`Password: Minimum 8 characters`)
-    .matches(/[A-Z]/)
-    .withMessage(`Password: Must contain at least one uppercase letter`)
-    .matches(/[0-9]/)
-    .withMessage(`Password: Must contain at least one number`)
-    .matches(/[\W_]/)
-    .withMessage(
-      `Password: Must contain at least one special character (!@#$%^&*)`
-    ),
+  body("password").notEmpty().withMessage(`Password: ${emptyErr}`),
+  // .isLength({ min: 8 })
+  // .withMessage(`Password: Minimum 8 characters`)
+  // .matches(/[A-Z]/)
+  // .withMessage(`Password: Must contain at least one uppercase letter`)
+  // .matches(/[0-9]/)
+  // .withMessage(`Password: Must contain at least one number`)
+  // .matches(/[\W_]/)
+  // .withMessage(
+  //   `Password: Must contain at least one special character (!@#$%^&*)`
+  //),
 ]
 
 const getSignUp = (req, res) => {
@@ -39,7 +37,9 @@ const getSignUp = (req, res) => {
 }
 const postSignUp = [
   validateUser,
+
   async (req, res) => {
+    console.log("Incoming body:", req.body)
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       console.log("errors found")
@@ -48,10 +48,13 @@ const postSignUp = [
       })
     }
 
-    let email = req.body.email
+    const email = req.body.email
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
+    const bio = req.body.bio
+    const name = req.body.name
+    const avatarUrl = req.body.avatarUrl
 
-    await db.postNewUser(email, hashedPassword)
+    await db.postNewUser(email, hashedPassword, bio, name, avatarUrl)
 
     res.json({
       message: `The user with email ${email} and password ${req.body.password}, hashed: ${hashedPassword} will be registered with prisma`,

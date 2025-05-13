@@ -4,7 +4,11 @@ const cors = require("cors")
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
-app.get("/", (req, res) => res.send("Hello, world!"))
+const userRouter = require("./routers/userRouter")
+app.use("/user", userRouter)
+app.get("/", (req, res) =>
+  res.json({ message: "Welcome to Messaging App API" })
+)
 
 const PORT = 3000
 app.listen(PORT, () => {

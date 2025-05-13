@@ -1,6 +1,10 @@
 const { PrismaClient } = require("@prisma/client")
-const prisma = new PrismaClient()
+//const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+  log: ["query", "info", "warn", "error"],
+})
 async function findUserByEmail(email) {
+  console.log("Looking for user with email:", email)
   try {
     const user = await prisma.user.findUnique({
       where: { email },

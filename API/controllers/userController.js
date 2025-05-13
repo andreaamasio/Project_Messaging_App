@@ -66,6 +66,8 @@ const getLogin = (req, res) => {
   res.json({ message: "this is the login route" })
 }
 const postLogin = async (req, res) => {
+  console.log("Login route reached")
+  console.log("Login body:", req.body)
   const user = await db.findUserByEmail(req.body.email)
   if (!user) {
     return res.status(404).json({
@@ -82,7 +84,7 @@ const postLogin = async (req, res) => {
       return res.json({
         message: `Hi ${user.email}, you successfully logged in.`,
         accessToken,
-        is_admin: user.is_admin,
+        userId: user.id,
         email: user.email,
       })
     } else {

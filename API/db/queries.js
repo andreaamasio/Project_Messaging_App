@@ -59,9 +59,20 @@ async function findMessageById(messageId) {
     throw error
   }
 }
-async function findMessages() {
+async function findMessages(userId) {
   try {
-    const messages = await prisma.message.findMany()
+    const messages = await prisma.message.findMany({
+      where: {
+        OR: [
+          {
+            senderId: userId,
+          },
+          {
+            receiverId: userId,
+          },
+        ],
+      },
+    })
 
     if (messages) {
       console.log(`Messages found: ${messages}`)
@@ -138,4 +149,5 @@ module.exports = {
   deleteMessage,
   findMessageById,
   postNewMessage,
+  findMessages,
 }

@@ -1,7 +1,7 @@
 const { body, validationResult } = require("express-validator")
 const bcrypt = require("bcryptjs")
 const db = require("../db/queries")
-const { authenticateToken } = require("../controllers/userController")
+
 const jwt = require("jsonwebtoken")
 
 const emptyErr = "cannot be empty."
@@ -14,9 +14,10 @@ const getMessage = async (req, res) => {
   res.json({ message })
 }
 const getAllMessages = async (req, res) => {
-  const user = req.user
-  //const messages = await db.findMessages()
-  res.json({ messages: `here would be the messages of ${user}` })
+  const userId = req.user.id
+  const messages = await db.findMessages(userId)
+
+  res.json({ messages })
 }
 
 //correct below

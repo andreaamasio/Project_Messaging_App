@@ -41,6 +41,40 @@ async function findUserById(id) {
     throw error
   }
 }
+async function findMessageById(messageId) {
+  try {
+    const message = await prisma.message.findUnique({
+      where: { messageId },
+    })
+
+    if (message) {
+      console.log(`Message found by ID: ${messageId}`)
+    } else {
+      console.log(`Message not found by ID: ${messageId}`)
+    }
+
+    return message
+  } catch (error) {
+    console.error(`Error finding message by ID (${messageId}):`, error)
+    throw error
+  }
+}
+async function findMessages() {
+  try {
+    const messages = await prisma.message.findMany()
+
+    if (messages) {
+      console.log(`Messages found: ${messages}`)
+    } else {
+      console.log(`Messages not found`)
+    }
+
+    return messages
+  } catch (error) {
+    console.error(`Error finding messages`, error)
+    throw error
+  }
+}
 async function postNewUser(email, hashedPassword, bio, name, avatarUrl) {
   try {
     const newUser = await prisma.user.create({

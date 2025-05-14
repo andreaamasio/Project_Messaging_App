@@ -1,40 +1,24 @@
 const { body, validationResult } = require("express-validator")
 const bcrypt = require("bcryptjs")
 const db = require("../db/queries")
+const { authenticateToken } = require("../controllers/userController")
 const jwt = require("jsonwebtoken")
 
 const emptyErr = "cannot be empty."
-const validateUser = [
-  body("email")
-    .trim()
-    .notEmpty()
-    .withMessage(`Email: ${emptyErr}`)
-    .isEmail()
-    .withMessage(`Email: Please use a valid email address`)
-    .normalizeEmail({ gmail_remove_dots: false })
-    .custom(async (value) => {
-      const existingUser = await db.findUserByEmail(value)
-      if (existingUser) {
-        throw new Error("Email already exists. Please choose another one.")
-      }
-    }),
-
-  body("password").notEmpty().withMessage(`Password: ${emptyErr}`),
-  // .isLength({ min: 8 })
-  // .withMessage(`Password: Minimum 8 characters`)
-  // .matches(/[A-Z]/)
-  // .withMessage(`Password: Must contain at least one uppercase letter`)
-  // .matches(/[0-9]/)
-  // .withMessage(`Password: Must contain at least one number`)
-  // .matches(/[\W_]/)
-  // .withMessage(
-  //   `Password: Must contain at least one special character (!@#$%^&*)`
-  //),
+const validateMessage = [
+  body("content").trim().notEmpty().withMessage(`Content: ${emptyErr}`),
 ]
 
-const getSignUp = (req, res) => {
-  res.json({ message: "this is the sign-up route" })
+const getMessage = async (req, res) => {
+  const message = await db.findMessageById(req.body.messageId)
+  res.json({ message })
 }
+const getAllMessages = async (req, res) => {
+  const messages = await db.findMessages()
+  res.json({ messages })
+}
+
+//correct below
 const postSignUp = [
   validateUser,
 
@@ -96,23 +80,10 @@ const postLogin = async (req, res) => {
     })
   }
 }
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers["authorization"]
-  const token = authHeader && authHeader.split(" ")[1]
-  if (token == null) return res.sendStatus(401)
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) {
-      return res.sendStatus(403)
-    }
-    req.user = user
-    next()
-  })
-}
 
 module.exports = {
-  getSignUp,
-  postSignUp,
+  getMessage,
+  getAllMessages,
   getLogin,
   postLogin,
-  authenticateToken,
 }

@@ -9,7 +9,11 @@ messageRouter.get(
   userController.authenticateToken, //check auth
   messageController.getAllMessages
 )
-// messageRouter.get("/:messageId", messageController.getMessage)
+messageRouter.get(
+  "/:messageId",
+  userController.authenticateToken,
+  messageController.getMessage
+)
 // messageRouter.put("/:messageId", messageController.updateMessage)
 // messageRouter.delete("/:messageId", messageController.deleteMessage)
 // messageRouter.post("/", messageController.postNewMessage)

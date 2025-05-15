@@ -10,7 +10,8 @@ const validateMessage = [
 ]
 
 const getMessage = async (req, res) => {
-  const message = await db.findMessageById(req.body.messageId)
+  const { messageId } = req.params
+  const message = await db.findMessageById(messageId)
   res.json({ message })
 }
 const getAllMessages = async (req, res) => {

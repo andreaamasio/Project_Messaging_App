@@ -1,8 +1,6 @@
 const { PrismaClient } = require("@prisma/client")
 //const prisma = new PrismaClient()
-const prisma = new PrismaClient({
-  log: ["query", "info", "warn", "error"],
-})
+const prisma = new PrismaClient()
 async function findUserByEmail(email) {
   console.log("Looking for user with email:", email)
   try {
@@ -106,20 +104,20 @@ async function postNewUser(email, hashedPassword, bio, name, avatarUrl) {
   }
 }
 
-async function postNewMessage(text, createdById, postId) {
+async function postNewMessage(senderId, receiverId, content) {
   try {
-    const newComment = await prisma.message.create({
+    const newMessage = await prisma.message.create({
       data: {
-        text,
-        createdById,
-        postId,
+        senderId,
+        receiverId,
+        content,
       },
     })
 
-    console.log(`Message successfully created: ${text}`)
-    return newComment
+    console.log(`Message successfully created: ${content}`)
+    return newMessage
   } catch (error) {
-    console.error(`Error creating new message (${text}):`, error)
+    console.error(`Error creating new message (${content}):`, error)
     throw error
   }
 }

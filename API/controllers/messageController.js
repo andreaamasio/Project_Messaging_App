@@ -21,33 +21,30 @@ const getAllMessages = async (req, res) => {
   res.json({ messages })
 }
 
-//correct below
-// const postSignUp = [
-//   validateUser,
+const postNewMessage = [
+  validateMessage,
 
-//   async (req, res) => {
-//     console.log("Incoming body:", req.body)
-//     const errors = validationResult(req)
-//     if (!errors.isEmpty()) {
-//       console.log("errors found")
-//       return res.status(400).json({
-//         errors: errors.array(),
-//       })
-//     }
+  async (req, res) => {
+    console.log("Incoming body:", req.body)
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      console.log("errors found")
+      return res.status(400).json({
+        errors: errors.array(),
+      })
+    }
 
-//     const email = req.body.email
-//     const hashedPassword = await bcrypt.hash(req.body.password, 10)
-//     const bio = req.body.bio
-//     const name = req.body.name
-//     const avatarUrl = req.body.avatarUrl
+    const senderId = req.user.id
+    const content = req.body.content
+    const receiverId = req.body.receiverId
 
-//     await db.postNewUser(email, hashedPassword, bio, name, avatarUrl)
+    await db.postNewMessage(senderId, receiverId, content)
 
-//     res.json({
-//       message: `The user with email ${email} and password ${req.body.password}, hashed: ${hashedPassword} will be registered with prisma`,
-//     })
-//   },
-// ]
+    res.json({
+      message: `The sender ${senderId} sent ${content} to ${receiverId}`,
+    })
+  },
+]
 
 // const getLogin = (req, res) => {
 //   res.json({ message: "this is the login route" })
@@ -87,4 +84,5 @@ const getAllMessages = async (req, res) => {
 module.exports = {
   getMessage,
   getAllMessages,
+  postNewMessage,
 }

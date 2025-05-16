@@ -14,6 +14,12 @@ const getMessage = async (req, res) => {
   const message = await db.findMessageById(messageId)
   res.json({ message })
 }
+
+const deleteMessage = async (req, res) => {
+  const { messageId } = req.params
+  const message = await db.deleteMessageById(messageId)
+  res.json({ message })
+}
 const updateMessage = [
   validateMessage,
   async (req, res) => {
@@ -103,4 +109,5 @@ module.exports = {
   getAllMessages,
   postNewMessage,
   updateMessage,
+  deleteMessage,
 }

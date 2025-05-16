@@ -19,18 +19,15 @@ messageRouter.put(
   userController.authenticateToken,
   messageController.updateMessage
 )
-// messageRouter.delete("/:messageId", messageController.deleteMessage)
+messageRouter.delete(
+  "/:messageId",
+  userController.authenticateToken,
+  messageController.deleteMessage
+)
 messageRouter.post(
   "/",
   userController.authenticateToken,
   messageController.postNewMessage
 )
-// messageRouter.get(
-//   "/check-auth",
-//   userController.authenticateToken,
-//   (req, res) => {
-//     res.json({ user: req.user })
-//   }
-// )
 
 module.exports = messageRouter

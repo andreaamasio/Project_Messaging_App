@@ -146,7 +146,7 @@ async function postNewMessage(senderId, receiverId, content) {
   }
 }
 
-async function deleteMessage(messageId) {
+async function deleteMessageById(messageId) {
   try {
     const deletedPost = await prisma.message.delete({
       where: {
@@ -168,7 +168,7 @@ module.exports = {
   findUserByEmail,
   findUserById,
   postNewUser,
-  deleteMessage,
+  deleteMessageById,
   findMessageById,
   postNewMessage,
   findMessages,

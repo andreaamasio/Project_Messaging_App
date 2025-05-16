@@ -14,7 +14,11 @@ messageRouter.get(
   userController.authenticateToken,
   messageController.getMessage
 )
-// messageRouter.put("/:messageId", messageController.updateMessage)
+messageRouter.put(
+  "/:messageId",
+  userController.authenticateToken,
+  messageController.updateMessage
+)
 // messageRouter.delete("/:messageId", messageController.deleteMessage)
 messageRouter.post(
   "/",

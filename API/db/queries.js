@@ -57,6 +57,30 @@ async function findMessageById(messageId) {
     throw error
   }
 }
+
+async function updateMessage(messageId, newContent) {
+  try {
+    const updateMessage = await prisma.message.update({
+      where: {
+        id: messageId,
+      },
+      data: {
+        content: newContent,
+      },
+    })
+
+    if (updateMessage) {
+      console.log(`Message by ID: ${messageId} updated with ${newContent}`)
+    } else {
+      console.log(`error updating message: ${messageId}`)
+    }
+
+    return updateMessage
+  } catch (error) {
+    console.error(`Error updating message by ID (${messageId}):`, error)
+    throw error
+  }
+}
 async function findMessages(userId) {
   try {
     const messages = await prisma.message.findMany({
@@ -137,9 +161,9 @@ async function deleteMessage(messageId) {
     throw error
   }
 }
-async function findMessageById(id) {
-  return await prisma.message.findUnique({ where: { id } })
-}
+// async function findMessageById(id) {
+//   return await prisma.message.findUnique({ where: { id } })
+// }
 module.exports = {
   findUserByEmail,
   findUserById,
@@ -148,4 +172,5 @@ module.exports = {
   findMessageById,
   postNewMessage,
   findMessages,
+  updateMessage,
 }

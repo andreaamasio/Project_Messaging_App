@@ -14,6 +14,23 @@ const getMessage = async (req, res) => {
   const message = await db.findMessageById(messageId)
   res.json({ message })
 }
+const updateMessage = [
+  validateMessage,
+  async (req, res) => {
+    console.log("Incoming body:", req.body)
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      console.log("errors found")
+      return res.status(400).json({
+        errors: errors.array(),
+      })
+    }
+    const { messageId } = req.params
+    const content = req.body.content
+    const newMessage = await db.updateMessage(messageId, content)
+    res.json({ newMessage })
+  },
+]
 const getAllMessages = async (req, res) => {
   const userId = req.user.id
   const messages = await db.findMessages(userId)
@@ -85,4 +102,5 @@ module.exports = {
   getMessage,
   getAllMessages,
   postNewMessage,
+  updateMessage,
 }

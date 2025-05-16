@@ -31,6 +31,21 @@ const validateUser = [
   //   `Password: Must contain at least one special character (!@#$%^&*)`
   //),
 ]
+const validateUpdateUser = [
+  body("name").trim().notEmpty().withMessage(`Name: ${emptyErr}`),
+
+  //body("avatarUrl").isURL().withMessage("Please use a valid URL for the avatar")
+  // .isLength({ min: 8 })
+  // .withMessage(`Password: Minimum 8 characters`)
+  // .matches(/[A-Z]/)
+  // .withMessage(`Password: Must contain at least one uppercase letter`)
+  // .matches(/[0-9]/)
+  // .withMessage(`Password: Must contain at least one number`)
+  // .matches(/[\W_]/)
+  // .withMessage(
+  //   `Password: Must contain at least one special character (!@#$%^&*)`
+  //),
+]
 
 const getSignUp = (req, res) => {
   res.json({ message: "this is the sign-up route" })
@@ -96,6 +111,24 @@ const postLogin = async (req, res) => {
     })
   }
 }
+const updateUser = [
+  validateUpdateUser,
+  async (req, res) => {
+    console.log("Incoming body:", req.body)
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      console.log("errors found")
+      return res.status(400).json({
+        errors: errors.array(),
+      })
+    }
+    const userId = req.user.id
+    console.log(`userId inside updateUser is ${userId}`)
+    const name = req.body.name
+    const newUser = await db.updateUser(userId, name)
+    res.json({ newUser })
+  },
+]
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"]
   const token = authHeader && authHeader.split(" ")[1]
@@ -115,4 +148,5 @@ module.exports = {
   getLogin,
   postLogin,
   authenticateToken,
+  updateUser,
 }

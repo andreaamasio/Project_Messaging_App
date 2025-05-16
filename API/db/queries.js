@@ -1,4 +1,5 @@
 const { PrismaClient } = require("@prisma/client")
+//const { updateUser } = require("../controllers/userController")
 //const prisma = new PrismaClient()
 const prisma = new PrismaClient()
 async function findUserByEmail(email) {
@@ -78,6 +79,29 @@ async function updateMessage(messageId, newContent) {
     return updateMessage
   } catch (error) {
     console.error(`Error updating message by ID (${messageId}):`, error)
+    throw error
+  }
+}
+async function updateUser(userId, name) {
+  try {
+    const updateUser = await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        name: name,
+      },
+    })
+
+    if (updateUser) {
+      console.log(`User with ID: ${userId} updated with new name: ${name}`)
+    } else {
+      console.log(`error updating user: ${userId}`)
+    }
+
+    return updateUser
+  } catch (error) {
+    console.error(`Error updating user ID (${userId}):`, error)
     throw error
   }
 }
@@ -168,6 +192,7 @@ module.exports = {
   findUserByEmail,
   findUserById,
   postNewUser,
+  updateUser,
   deleteMessageById,
   findMessageById,
   postNewMessage,

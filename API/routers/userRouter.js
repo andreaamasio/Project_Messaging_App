@@ -7,9 +7,6 @@ userRouter.get("/sign-up", userController.getSignUp)
 userRouter.post("/sign-up", userController.postSignUp)
 userRouter.get("/login", userController.getLogin)
 userRouter.post("/login", userController.postLogin)
-
-userRouter.get("/check-auth", userController.authenticateToken, (req, res) => {
-  res.json({ user: req.user })
-})
+userRouter.put("/", userController.authenticateToken, userController.updateUser)
 
 module.exports = userRouter

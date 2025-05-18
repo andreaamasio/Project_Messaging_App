@@ -33,18 +33,17 @@ function SideBar({ onUserSelect }) {
     fetchContacts()
   }, [])
   return (
-    <>
-      {!loading && !error && (
-        <ul className="friend-list">
-          {userList.map((user) => (
-            <li key={user.id} onClick={() => onUserSelect(user)}>
-              {/* <img src={user.avatarUrl} alt={`${user.name} avatar`} /> */}
-              {user.name}
-            </li>
-          ))}
-        </ul>
-      )}
-    </>
+    <aside className="sidebar">
+      <h2>Contacts</h2>
+      <ul className="friend-list">
+        {userList.map((user) => (
+          <li key={user.id} onClick={() => onUserSelect(user)}>
+            {/* <img src={user.avatarUrl} alt={`${user.name} avatar`} /> */}
+            {user.name}
+          </li>
+        ))}
+      </ul>
+    </aside>
   )
 }
 

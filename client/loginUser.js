@@ -29,10 +29,7 @@ const loginUser = async (email, password) => {
 
   const data = await response.json()
   return {
-    user: {
-      email: data.email,
-      is_admin: data.is_admin,
-    },
+    user: data.user,
     accessToken: data.accessToken,
   }
 }

@@ -22,8 +22,8 @@ const SignUpForm = ({ onSuccess }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2 className="text-lg font-semibold mb-4">Register</h2>
+    <form onSubmit={handleSubmit} className="form-container">
+      <h2>Register</h2>
       {error && <p className="red">{error}</p>}
       {success && <p className="green">{success}</p>}
       <label>
@@ -35,7 +35,7 @@ const SignUpForm = ({ onSuccess }) => {
           required
         />
       </label>
-      <label className="block mb-4">
+      <label>
         <span>Password</span>
         <input
           type="password"

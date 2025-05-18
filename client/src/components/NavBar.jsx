@@ -1,20 +1,24 @@
 import "./NavBar.css"
 
-function NavBar() {
+const NavBar = ({ user, onLogout }) => {
   return (
-    <>
-      <ul className="nav-list">
-        <li>Placeholder</li>
-        <li>
-          <h1>Messaging App</h1>
-        </li>
-        <li>
-          <a href="https://github.com/andreaamasio">
-            <img src="/pictures/github-60.svg" alt="Github-link" />
-          </a>
-        </li>
-      </ul>
-    </>
+    <nav className="navbar">
+      <div className="navbar-left">
+        <h1 className="logo">Messaging App</h1>
+      </div>
+      <div className="navbar-right">
+        {user ? (
+          <>
+            <span className="welcome-message">Welcome back, {user.name}</span>
+            <button className="logout-button" onClick={onLogout}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <span className="placeholder">Not logged in</span>
+        )}
+      </div>
+    </nav>
   )
 }
 

@@ -108,8 +108,14 @@ const postLogin = async (req, res) => {
       return res.json({
         message: `Hi ${user.email}, you successfully logged in.`,
         accessToken,
-        userId: user.id,
-        email: user.email,
+        user: {
+          userId: user.id,
+          email: user.email,
+          name: user.name,
+          bio: user.bio,
+          updatedAt: user.updatedAt,
+          createdAt: user.createdAt,
+        },
       })
     } else {
       return res.status(401).json({

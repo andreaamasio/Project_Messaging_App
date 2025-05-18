@@ -47,32 +47,26 @@ const App = () => {
   }
   return (
     <div>
-      {successMessage && (
-        <p className="text-center mt-4 text-green-600">{successMessage}</p>
-      )}
       <Navbar user={user} onLogout={handleLogout} />
       {user ? (
         <>
-          <SideBar onUserSelect={(user) => setSelectedUser(user)} />
-          {selectedUser && (
-            <Chat
-              currentUser={user}
-              selectedUser={selectedUser}
-              token={token}
-            />
-          )}
+          <div className="main-layout">
+            <SideBar onUserSelect={(user) => setSelectedUser(user)} />
+            {selectedUser && (
+              <Chat
+                currentUser={user}
+                selectedUser={selectedUser}
+                token={token}
+              />
+            )}
+          </div>
         </>
       ) : showRegister ? (
         <>
-          <RegisterForm onSuccess={() => setShowRegister(false)} />
-          <p className="text-center mt-2">
+          <SignUpForm onSuccess={() => setShowRegister(false)} />
+          <p>
             Already have an account?{" "}
-            <button
-              className="text-blue-600 underline"
-              onClick={() => setShowRegister(false)}
-            >
-              Log in
-            </button>
+            <button onClick={() => setShowRegister(false)}>Log in</button>
           </p>
         </>
       ) : (
@@ -81,21 +75,16 @@ const App = () => {
             onLogin={(userData, accessToken) => {
               console.log("✅ Logged in as:", userData)
               console.log("🔐 Token:", accessToken)
-              setSuccessMessage(`Welcome back, ${userData.email}`)
+              setSuccessMessage(`Welcome back, ${userData.name}`)
               setUser(userData)
               setToken(accessToken)
               localStorage.setItem("token", accessToken)
               localStorage.setItem("user", JSON.stringify(userData))
             }}
           />
-          <p className="text-center mt-2">
+          <p>
             Don't have an account?{" "}
-            <button
-              className="text-blue-600 underline"
-              onClick={() => setShowRegister(true)}
-            >
-              Register
-            </button>
+            <button onClick={() => setShowRegister(true)}>Register</button>
           </p>
         </>
       )}

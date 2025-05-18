@@ -29,14 +29,19 @@ const Chat = ({ currentUser, selectedUser, token }) => {
   }, [selectedUser, token])
 
   return (
-    <div className="chat-box">
-      <h2>Chat with {selectedUser.name}</h2>
+    <div className="chat-container">
+      <h2 className="chat-header">Chat with {selectedUser.name}</h2>
       <ul>
         {messages.map((msg) => (
-          <li key={msg.id}>
+          <li
+            key={msg.id}
+            className={`message ${
+              msg.senderId === currentUser.id ? "self" : ""
+            }`}
+          >
             <strong>
-              {msg.senderId === currentUser.id ? "You" : selectedUser.name}:
-            </strong>{" "}
+              {msg.senderId === currentUser.id ? "You" : selectedUser.name}
+            </strong>
             {msg.content}
           </li>
         ))}

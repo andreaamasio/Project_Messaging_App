@@ -1,0 +1,13 @@
+.nav-list {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.nav-list img {
+  max-width: 50px;
+}
+h1 {
+  font-size: 1.4rem;
+}

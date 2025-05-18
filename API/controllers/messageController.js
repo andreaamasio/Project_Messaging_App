@@ -38,8 +38,9 @@ const updateMessage = [
   },
 ]
 const getAllMessages = async (req, res) => {
-  const userId = req.user.id
-  const messages = await db.findMessages(userId)
+  const { receiverId } = req.params
+  const senderId = req.user.id
+  const messages = await db.findMessages(receiverId, senderId)
 
   res.json({ messages })
 }

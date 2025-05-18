@@ -5,7 +5,7 @@ const userController = require("../controllers/userController")
 const messageRouter = Router()
 
 messageRouter.get(
-  "/",
+  "/:receiverId",
   userController.authenticateToken, //check auth
   messageController.getAllMessages
 )

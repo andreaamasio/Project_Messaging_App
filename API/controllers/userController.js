@@ -82,14 +82,14 @@ const getLogin = (req, res) => {
 }
 
 const getContacts = async (req, res) => {
-  const contacts = await db.findContacts()
-  if (!contacts) {
+  const users = await db.findContacts()
+  if (!users) {
     return res.status(404).json({
-      message: "Contacts not found",
+      message: "Users not found",
     })
   }
 
-  res.json({ contacts })
+  res.json({ data: users })
 }
 const postLogin = async (req, res) => {
   const user = await db.findUserByEmail(req.body.email)

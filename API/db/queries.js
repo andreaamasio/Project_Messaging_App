@@ -105,19 +105,16 @@ async function updateUser(userId, name) {
     throw error
   }
 }
-async function findMessages(userId) {
+async function findMessages(receiverId, senderId) {
   try {
     const messages = await prisma.message.findMany({
       where: {
         OR: [
-          {
-            senderId: userId,
-          },
-          {
-            receiverId: userId,
-          },
+          { senderId, receiverId },
+          { senderId: receiverId, receiverId: senderId },
         ],
       },
+      orderBy: { createdAt: "asc" },
     })
 
     if (messages) {

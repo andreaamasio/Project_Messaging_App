@@ -3,19 +3,25 @@ import React, { useRef, useState, useEffect } from "react"
 
 const API = "http://localhost:3000"
 
-function SideBar() {
+function SideBar({ onUserSelect }) {
   const [userList, setUserList] = useState([])
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await fetch(`${API}/user`)
+        const token = localStorage.getItem("token")
+        const response = await fetch("http://localhost:3000/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
         const json = await response.json()
-        console.log("Fetched users:", json.data)
+        console.log("Full response from /user:", json)
         setUserList(json.data)
         setLoading(false)
       } catch (err) {
@@ -30,17 +36,12 @@ function SideBar() {
     <>
       {!loading && !error && (
         <ul className="friend-list">
-          {userList.map((user) => {
-            return (
-              <li
-                key={user.id}
-                //onClick={}
-              >
-                <img src={user.avatarUrl} alt={`${user.name} avatar`} />
-                {user.name}{" "}
-              </li>
-            )
-          })}
+          {userList.map((user) => (
+            <li key={user.id} onClick={() => onUserSelect(user)}>
+              {/* <img src={user.avatarUrl} alt={`${user.name} avatar`} /> */}
+              {user.name}
+            </li>
+          ))}
         </ul>
       )}
     </>

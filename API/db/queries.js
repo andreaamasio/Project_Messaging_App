@@ -132,6 +132,23 @@ async function findMessages(userId) {
     throw error
   }
 }
+
+async function findContacts() {
+  try {
+    const contacts = await prisma.user.findMany({})
+
+    if (contacts) {
+      console.log(`contacts found: ${contacts}`)
+    } else {
+      console.log(`contacts not found`)
+    }
+
+    return contacts
+  } catch (error) {
+    console.error(`Error finding contacts`, error)
+    throw error
+  }
+}
 async function postNewUser(email, hashedPassword, bio, name, avatarUrl) {
   try {
     const newUser = await prisma.user.create({
@@ -198,4 +215,5 @@ module.exports = {
   postNewMessage,
   findMessages,
   updateMessage,
+  findContacts,
 }

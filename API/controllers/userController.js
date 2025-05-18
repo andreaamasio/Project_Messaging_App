@@ -80,6 +80,17 @@ const postSignUp = [
 const getLogin = (req, res) => {
   res.json({ message: "this is the login route" })
 }
+
+const getContacts = async (req, res) => {
+  const contacts = await db.findContacts()
+  if (!contacts) {
+    return res.status(404).json({
+      message: "Contacts not found",
+    })
+  }
+
+  res.json({ contacts })
+}
 const postLogin = async (req, res) => {
   const user = await db.findUserByEmail(req.body.email)
   if (!user) {
@@ -149,4 +160,5 @@ module.exports = {
   postLogin,
   authenticateToken,
   updateUser,
+  getContacts,
 }

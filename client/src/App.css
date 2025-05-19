@@ -26,7 +26,9 @@ body {
   align-items: center;
   gap: 1rem;
 }
-
+.user-name {
+  font-weight: bold;
+}
 .welcome-message {
   font-size: 16px;
 }
@@ -43,10 +45,40 @@ body {
 .logout-button:hover {
   background-color: #c0392b;
 }
+.navbar-left,
+.navbar-center,
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-center {
+  flex: 1;
+  justify-content: center;
+  font-style: italic;
+}
+
+.edit-btn {
+  background: none;
+  border: none;
+  color: white;
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.edit-btn:hover {
+  color: #ffcc00;
+}
+
+.edit-input {
+  padding: 4px 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
 
 /* Sidebar */
 .sidebar {
-  width: 250px;
   height: 100vh;
   overflow-y: auto;
   background-color: #f0f0f0;

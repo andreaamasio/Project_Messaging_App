@@ -67,9 +67,9 @@ const postSignUp = [
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
     const bio = req.body.bio
     const name = req.body.name
-    const avatarUrl = req.body.avatarUrl
+    //const avatarUrl = req.body.avatarUrl
 
-    await db.postNewUser(email, hashedPassword, bio, name, avatarUrl)
+    await db.postNewUser(email, hashedPassword, bio, name)
 
     res.json({
       message: `The user with email ${email} and password ${req.body.password}, hashed: ${hashedPassword} will be registered with prisma`,
@@ -109,7 +109,7 @@ const postLogin = async (req, res) => {
         message: `Hi ${user.email}, you successfully logged in.`,
         accessToken,
         user: {
-          userId: user.id,
+          id: user.id,
           email: user.email,
           name: user.name,
           bio: user.bio,

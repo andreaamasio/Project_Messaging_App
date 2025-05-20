@@ -1,10 +1,10 @@
-export default async function registerUser(email, password) {
+export default async function registerUser(email, password, name, bio) {
   const response = await fetch("http://localhost:3000/user/sign-up", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: new URLSearchParams({ email, password }),
+    body: new URLSearchParams({ email, password, name, bio }),
   })
 
   if (!response.ok) {

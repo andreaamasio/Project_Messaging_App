@@ -149,7 +149,14 @@ body {
   overflow-y: auto;
   padding: 10px 1rem;
 }
-
+.chat-messages ul {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  gap: 8px;
+}
 .message {
   display: inline-block;
   background-color: #f1f1f1;
@@ -244,4 +251,22 @@ body {
 .green {
   color: green;
   font-size: 0.9rem;
+}
+/* .register-link, login-link */
+.register-link {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  text-align: center;
+  color: #555;
+}
+
+.register-link a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+  color: #0056b3;
 }

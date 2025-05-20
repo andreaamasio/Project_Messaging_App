@@ -64,8 +64,8 @@ const App = () => {
       ) : showRegister ? (
         <>
           <SignUpForm onSuccess={() => setShowRegister(false)} />
-          <p>
-            Already have an account?{" "}
+          <p className="register-link">
+            Already have an account?
             <button onClick={() => setShowRegister(false)}>Log in</button>
           </p>
         </>
@@ -82,8 +82,8 @@ const App = () => {
               localStorage.setItem("user", JSON.stringify(userData))
             }}
           />
-          <p>
-            Don't have an account?{" "}
+          <p className="register-link">
+            Don't have an account?
             <button onClick={() => setShowRegister(true)}>Register</button>
           </p>
         </>

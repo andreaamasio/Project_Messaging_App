@@ -39,7 +39,8 @@ const Chat = ({ currentUser, selectedUser, token }) => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          toUserId: selectedUser.id, // recipient
+          //senderId: currentUser.id,
+          receiverId: selectedUser.id, // recipient
           content: newMessage,
         }),
       })
@@ -48,16 +49,22 @@ const Chat = ({ currentUser, selectedUser, token }) => {
 
       const data = await res.json()
       const sentMessage = data.newMessage
+
       setMessages((prev) => [...prev, sentMessage])
       setNewMessage("")
     } catch (err) {
       console.error("Send error:", err)
     }
   }
+  if (!currentUser) {
+    return <div>Loading user info...</div>
+  }
   return (
     <>
       <div className="chat-container">
-        <h2 className="chat-header">Chat with {selectedUser.name}</h2>
+        <h2 className="chat-header">
+          Chat with {selectedUser.name} <i>"{selectedUser.bio}"</i>
+        </h2>
         <div className="chat-messages">
           <ul>
             {messages.map((msg) => (

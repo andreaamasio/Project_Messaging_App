@@ -18,7 +18,7 @@ const Navbar = ({ user, onLogout, token }) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // 🔑 Important!
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           name: newName,

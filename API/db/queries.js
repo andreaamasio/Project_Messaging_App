@@ -82,7 +82,7 @@ async function updateMessage(messageId, newContent) {
     throw error
   }
 }
-async function updateUser(userId, name) {
+async function updateUser(userId, name, bio) {
   try {
     const updateUser = await prisma.user.update({
       where: {
@@ -90,6 +90,7 @@ async function updateUser(userId, name) {
       },
       data: {
         name: name,
+        bio: bio,
       },
     })
 

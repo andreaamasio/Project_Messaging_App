@@ -142,8 +142,9 @@ const updateUser = [
     const userId = req.user.id
     console.log(`userId inside updateUser is ${userId}`)
     const name = req.body.name
-    const newUser = await db.updateUser(userId, name)
-    res.json({ newUser })
+    const bio = req.body.bio
+    const newUser = await db.updateUser(userId, name, bio)
+    res.json({ newUser: { name: newUser.name, bio: newUser.bio } })
   },
 ]
 function authenticateToken(req, res, next) {

@@ -47,10 +47,10 @@ const App = () => {
   }
   return (
     <div>
-      <Navbar user={user} onLogout={handleLogout} />
+      <Navbar user={user} token={token} onLogout={handleLogout} />
       {user ? (
         <>
-          <div className="main-layout">
+          <div className="app-container">
             <SideBar onUserSelect={(user) => setSelectedUser(user)} />
             {selectedUser && (
               <Chat

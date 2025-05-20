@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 
 const Chat = ({ currentUser, selectedUser, token }) => {
   const [messages, setMessages] = useState([])
+  const [newMessage, setNewMessage] = useState("")
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -27,26 +28,70 @@ const Chat = ({ currentUser, selectedUser, token }) => {
       fetchMessages()
     }
   }, [selectedUser, token])
+  const handleSendMessage = async () => {
+    if (!newMessage.trim()) return
 
+    try {
+      const res = await fetch("http://localhost:3000/message", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          toUserId: selectedUser.id, // recipient
+          content: newMessage,
+        }),
+      })
+
+      if (!res.ok) throw new Error("Failed to send message")
+
+      const data = await res.json()
+      const sentMessage = data.newMessage
+      setMessages((prev) => [...prev, sentMessage])
+      setNewMessage("")
+    } catch (err) {
+      console.error("Send error:", err)
+    }
+  }
   return (
-    <div className="chat-container">
-      <h2 className="chat-header">Chat with {selectedUser.name}</h2>
-      <ul>
-        {messages.map((msg) => (
-          <li
-            key={msg.id}
-            className={`message ${
-              msg.senderId === currentUser.id ? "self" : ""
-            }`}
-          >
-            <strong>
-              {msg.senderId === currentUser.id ? "You" : selectedUser.name}
-            </strong>
-            {msg.content}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <div className="chat-container">
+        <h2 className="chat-header">Chat with {selectedUser.name}</h2>
+        <div className="chat-messages">
+          <ul>
+            {messages.map((msg) => (
+              <li
+                key={msg.id}
+                className={`message ${
+                  msg.senderId === currentUser.id ? "self" : ""
+                }`}
+              >
+                <strong>
+                  {msg.senderId === currentUser.id ? "You" : selectedUser.name}
+                </strong>
+                {msg.content}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="chat-input-container">
+          <input
+            type="text"
+            placeholder="Type a message..."
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSendMessage()
+            }}
+            className="chat-input"
+          />
+          <button onClick={handleSendMessage} className="send-button">
+            Send
+          </button>
+        </div>
+      </div>
+    </>
   )
 }
 

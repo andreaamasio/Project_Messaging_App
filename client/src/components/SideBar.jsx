@@ -34,7 +34,7 @@ function SideBar({ onUserSelect }) {
   }, [])
   return (
     <aside className="sidebar">
-      <h2>Contacts</h2>
+      <h2>Send a message to:</h2>
       <ul className="friend-list">
         {userList.map((user) => (
           <li key={user.id} onClick={() => onUserSelect(user)}>

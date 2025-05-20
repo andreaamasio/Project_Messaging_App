@@ -20,6 +20,10 @@ const LoginForm = ({ onLogin }) => {
 
   return (
     <form onSubmit={handleSubmit} className="form-container">
+      <p>
+        To test the app, you can sign up or login with mail: test3@gmail.com,
+        pass: test3
+      </p>
       <h2>Login</h2>
       {error && <p>{error}</p>}
       <label className="block mb-2">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 //import "./Navbar.css"
 
-const Navbar = ({ user, onLogout }) => {
+const Navbar = ({ user, onLogout, token }) => {
   const [editingName, setEditingName] = useState(false)
   const [editingBio, setEditingBio] = useState(false)
   const [newName, setNewName] = useState("")
@@ -12,14 +12,42 @@ const Navbar = ({ user, onLogout }) => {
       setNewBio(user.bio || "")
     }
   }, [user])
-  const handleNameSave = () => {
-    // TODO: Persist newName via API
-    setEditingName(false)
-  }
+  const handleUserSave = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/user", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // 🔑 Important!
+        },
+        body: JSON.stringify({
+          name: newName,
+          bio: newBio,
+        }),
+      })
 
-  const handleBioSave = () => {
-    // TODO: Persist newBio via API
-    setEditingBio(false)
+      const contentType = response.headers.get("content-type")
+
+      if (!response.ok) {
+        let errorMsg = "Update failed"
+        if (contentType && contentType.includes("application/json")) {
+          const errorData = await response.json()
+          errorMsg = errorData.message || errorMsg
+        } else {
+          const text = await response.text()
+          errorMsg = text || errorMsg
+        }
+        throw new Error(errorMsg)
+      }
+
+      const data = await response.json()
+      console.log("✅ Updated user:", data.newUser)
+
+      setEditingName(false)
+      setEditingBio(false)
+    } catch (err) {
+      console.error("❌ Failed to update user:", err.message)
+    }
   }
 
   return (
@@ -32,7 +60,12 @@ const Navbar = ({ user, onLogout }) => {
                 className="edit-input"
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
-                onBlur={handleNameSave}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleUserSave()
+                  }
+                }}
+                onBlur={handleUserSave}
                 autoFocus
               />
             ) : (
@@ -54,7 +87,12 @@ const Navbar = ({ user, onLogout }) => {
                 className="edit-input"
                 value={newBio}
                 onChange={(e) => setNewBio(e.target.value)}
-                onBlur={handleBioSave}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleUserSave()
+                  }
+                }}
+                onBlur={handleUserSave}
                 autoFocus
               />
             ) : (

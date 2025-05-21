@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 //import "./Navbar.css"
 
 const Navbar = ({ user, onLogout, token }) => {
+  const API = import.meta.env.VITE_API_URL
   const [editingName, setEditingName] = useState(false)
   const [editingBio, setEditingBio] = useState(false)
   const [newName, setNewName] = useState("")
@@ -14,7 +15,7 @@ const Navbar = ({ user, onLogout, token }) => {
   }, [user])
   const handleUserSave = async () => {
     try {
-      const response = await fetch("http://localhost:3000/user", {
+      const response = await fetch(`${API}/user`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

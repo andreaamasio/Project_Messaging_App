@@ -9,6 +9,8 @@ import SideBar from "./components/SideBar"
 import Chat from "./components/Chat"
 
 const App = () => {
+  const API = import.meta.env.VITE_API_URL
+
   const [user, setUser] = useState(null)
   const [token, setToken] = useState(null)
   const [showRegister, setShowRegister] = useState(false)
@@ -18,7 +20,7 @@ const App = () => {
   useEffect(() => {
     const token = localStorage.getItem("token")
     if (token) {
-      fetch("http://localhost:3000/user/login", {
+      fetch(`${API}/login`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

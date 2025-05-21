@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react"
 
 const Chat = ({ currentUser, selectedUser, token }) => {
+  const API = import.meta.env.VITE_API_URL
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState("")
 
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:3000/message/${selectedUser.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
+        const res = await fetch(`${API}/message/${selectedUser.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
 
         if (!res.ok) throw new Error("Failed to fetch messages")
         const data = await res.json()
@@ -32,7 +30,7 @@ const Chat = ({ currentUser, selectedUser, token }) => {
     if (!newMessage.trim()) return
 
     try {
-      const res = await fetch("http://localhost:3000/message", {
+      const res = await fetch(`${API}/message`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,9 +1,8 @@
 //import "./NavBar.css"
 import React, { useRef, useState, useEffect } from "react"
 
-const API = "http://localhost:3000"
-
 function SideBar({ onUserSelect }) {
+  const API = import.meta.env.VITE_API_URL
   const [userList, setUserList] = useState([])
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -12,7 +11,7 @@ function SideBar({ onUserSelect }) {
     const fetchContacts = async () => {
       try {
         const token = localStorage.getItem("token")
-        const response = await fetch("http://localhost:3000/user", {
+        const response = await fetch(`${API}/user`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -193,6 +193,10 @@ body {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+.receiver-bio {
+  font-style: italic;
+  font-size: 1rem;
+}
 
 .send-button {
   margin-left: 10px;

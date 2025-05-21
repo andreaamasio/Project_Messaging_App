@@ -84,7 +84,7 @@ const App = () => {
           />
           <p className="register-link">
             Don't have an account?
-            <button onClick={() => setShowRegister(true)}>Register</button>
+            <button onClick={() => setShowRegister(true)}>Sign Up</button>
           </p>
         </>
       )}

@@ -63,7 +63,8 @@ const Chat = ({ currentUser, selectedUser, token }) => {
     <>
       <div className="chat-container">
         <h2 className="chat-header">
-          Chat with {selectedUser.name} <i>"{selectedUser.bio}"</i>
+          Chat with {selectedUser.name}{" "}
+          <span className="receiver-bio">"{selectedUser.bio}"</span>
         </h2>
         <div className="chat-messages">
           <ul>
